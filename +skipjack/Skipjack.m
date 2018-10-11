@@ -27,6 +27,7 @@ classdef Skipjack < handle
                 % audiorecorder is a scoped object, *not* a user-managed one
 
             %self.Interface_ = bias.BiasMultipleCameraInterface() ;    
+            %self.Interface_.startingSweep() ;
             
             self.Recorder_.TimerPeriod = 0.1 ;  % s, => 10 Hz
             self.Recorder_.TimerFcn = @(source, event)(self.callback(source,event)) ; 
