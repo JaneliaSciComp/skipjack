@@ -1,0 +1,23 @@
+function [doFire, nextInitialNSamplesAboveThreshold, nextInitialNSamplesBelowThreshold, nextInitialIsTriggered] = ...
+        computeDoFire(fs, ...
+                      x, ...
+                      threshold, ...
+                      minimumSuperThresholdDuration, ...
+                      initialNSamplesAboveThreshold, ...
+                      initialNSamplesBelowThreshold, ...
+                      initialIsTriggered)
+
+    isAboveThreshold = (x >= threshold) ;
+    isBelowThreshold = (x <  threshold) ;
+    nSamplesAboveThreshold = skipjack.nSamplesHigh(isAboveThreshold, initialNSamplesAboveThreshold) ;
+    nSamplesBelowThreshold = skipjack.nSamplesHigh(isBelowThreshold, initialNSamplesBelowThreshold) ;
+    mininumSuperThresholdSampleCount = round(minimumSuperThresholdDuration*fs) ;            
+    isDefinitelyTriggered = (nSamplesAboveThreshold >= mininumSuperThresholdSampleCount) ;
+    isDefinitelyNotTriggered = (nSamplesBelowThreshold >= mininumSuperThresholdSampleCount) ;
+    isTriggered =  skipjack.computeIsTriggered(isDefinitelyTriggered, isDefinitelyNotTriggered, initialIsTriggered) ;
+    isRisingEdgeOfIsTriggered = isTriggered & ~vertcat(initialIsTriggered, isTriggered(1:end-1)) ;
+    doFire = any(isRisingEdgeOfIsTriggered) ;
+    nextInitialNSamplesAboveThreshold = nSamplesAboveThreshold(end) ;
+    nextInitialNSamplesBelowThreshold = nSamplesBelowThreshold(end) ;
+    nextInitialIsTriggered = isTriggered(end) ;
+end
