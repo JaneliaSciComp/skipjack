@@ -44,7 +44,7 @@ classdef BiasMultipleCameraInterface < handle
                 cameraCount = 0 ; %#ok<PROPLC>
                 for iCamera = 1:16 ,  % no one will have more cameras than this
                     portNumber = self.serverFirstCameraPort + (iCamera-1)*self.serverPortStride ;
-                    cameraInterface = ws.examples.bias.SimpleBiasCameraInterface(self.serverIPAddressAsString, portNumber) ;
+                    cameraInterface = skipjack.bias.SimpleBiasCameraInterface(self.serverIPAddressAsString, portNumber) ;
                     try
                         %cameraInterface.connectAndGetConfiguration() ;
                         response = cameraInterface.getStatus() ; %#ok<NASGU>
