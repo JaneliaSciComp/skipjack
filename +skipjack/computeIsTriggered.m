@@ -3,10 +3,10 @@ function result = computeIsTriggered(isDefinitelyTriggered, isDefinitelyNotTrigg
     n = length(isDefinitelyTriggered) ;            
     lastResult = result0 ;
     for i = 1:n ,
-        if isDefinitelyTriggered(i) ,
-            thisResult = 1 ;
-        elseif isDefinitelyNotTriggered(i) ,
+        if isDefinitelyNotTriggered(i) ,
             thisResult = 0 ;
+        elseif isDefinitelyTriggered(i) ,
+            thisResult = 1 ;
         else
             thisResult = lastResult ;
         end

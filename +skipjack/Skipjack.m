@@ -36,6 +36,7 @@ classdef Skipjack < handle
             
             %self.Figure_ = figure('color', 'w') ;
             %self.Axes_ = axes('Parent', self.Figure_) ;
+            fprintf('Skipjack started.') ;
         end
         
         function delete(self)
@@ -43,10 +44,12 @@ classdef Skipjack < handle
             %delete(self.Figure_) ;
             self.Interface_.stoppingSweep() ;
             self.Interface_.stoppingRun() ;            
+            fprintf('Skipjack stopped.') ;
         end
         
         function callback(self, ~, ~)
-            x_stereo_in_counts = double(self.Recorder_.getaudiodata('int16')) ;
+            x_stereo_in_counts_as_int16 = self.Recorder_.getaudiodata('int16') ;
+            x_stereo_in_counts = double(x_stereo_in_counts_as_int16) ;
             x_left_in_counts = x_stereo_in_counts(:,1) ;  % just want left channel
             x_left_in_volts = 2.2/2^15 * x_left_in_counts ; 
                 % Assumes digital full scale is 2.2 V, which it is for a 1 kHz sine wave
