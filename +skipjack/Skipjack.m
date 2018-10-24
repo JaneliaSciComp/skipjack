@@ -22,7 +22,7 @@ classdef Skipjack < handle
         function self = Skipjack()
             bits_per_sample = 16 ;
             channel_count = 2 ;
-            device_id = -1 ;
+            device_id = -1 ;  % use default device
             self.Recorder_ = audiorecorder(self.SamplingRate, bits_per_sample, channel_count, device_id) ;  
                 % audiorecorder is a scoped object, *not* a user-managed one
 
