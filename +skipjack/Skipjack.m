@@ -36,15 +36,18 @@ classdef Skipjack < handle
             
             %self.Figure_ = figure('color', 'w') ;
             %self.Axes_ = axes('Parent', self.Figure_) ;
-            fprintf('Skipjack started.') ;
+            fprintf('Skipjack started.\n') ;
         end
         
         function delete(self)
-            self.Recorder_.stop() ;
-            %delete(self.Figure_) ;
-            self.Interface_.stoppingSweep() ;
-            self.Interface_.stoppingRun() ;            
-            fprintf('Skipjack stopped.') ;
+            if ~isempty(self.Recorder_) && isa(self.Recorder_, 'audiorecorder') ,                
+                self.Recorder_.stop() ;
+            end
+            if ~isempty(self.Interface_) && isa(self.Interface_, 'skipjack.bias.BiasMultipleCameraInterface') ,
+                self.Interface_.stoppingSweep() ;
+                self.Interface_.stoppingRun() ;            
+            end
+            fprintf('Skipjack stopped.\n') ;
         end
         
         function callback(self, ~, ~)
